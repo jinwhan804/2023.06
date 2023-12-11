@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div id="root"></div>
+</body>
+<script>
+    // 로컬 시간 표기
+    const Clock = ()=>{
+        const div = document.createElement('div');
+        const h1 = document.createElement('h1');
+        const h2 = document.createElement('h2');
+
+        const txt = '시간';
+        let time = `time : ${new Date().toLocaleTimeString()}`;
+
+        h1.innerHTML = txt;
+        h2.innerHTML = time;
+
+        div.append(h1,h2);
+
+        document.querySelector('#root').innerHTML = div.innerHTML;
+    }
+
+    setInterval(Clock, 1000);
+</script>
+</html>

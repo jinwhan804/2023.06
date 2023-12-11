@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div id="root"></div>
+</body>
+<script>
+    // 초기에 react를 사용할 태그를 가져오기 위해 사용한 후 DOM 직접 사용 안 함
+    const root = document.querySelector('#root');
+    // DOM을 직접 다루지 않고 state로 랜더링
+    let state = {
+        items : ['아이템 1', '아이템 2']
+    }
+
+    // 랜더링 함수
+    const render = ()=>{
+        // 상태값이 아닌 변수를 사용하면 변수를 다시 선언하기 때문에 초기화가 된다.
+        // 따라서 보관이 필요한 경우 상태 값으로 보관을 해준다.
+        let temp = 0;
+        const {items} = state;
+        root.innerHTML = `
+        <ul>
+            ${items.map((item)=>`<li>${item}</li>`)}
+        </ul>
+        <button id='append'>추가</button>
+        `;
+        document.querySelector('#append').addEventListener('click',()=>{
+            // state를 변경 시키면 react가 주시하고 있다가 값이 변하면 리 랜더링해준다.
+            // setState로만 변경
+            setState({items : [...items, `아이템 ${items.length + 1}`]});
+            console.log(temp);
+            temp++;
+        })
+    }
+
+    const setState = (_state)=>{
+        state = {...state,..._state};
+        render();
+    }
+
+    render();
+</script>
+</html>

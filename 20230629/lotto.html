@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <style>
+        #root{
+            width: 500px;
+            height: 600px;
+            display: flex;
+            flex-wrap: wrap;
+        }
+        .number{
+            display: inline-block;
+            width: 30px;
+            height: 30px;
+            border: 1px solid;
+        }
+    </style>
+</head>
+<body>
+    <div id="root"></div>
+</body>
+<script type="text/babel">
+    // 로또 숫자 표기
+    class LottoNum extends React.Component {
+        constructor(props){
+            super(props);
+        }
+
+        render(){
+            return(
+                <div className='number'>{this.props.number}</div>
+            )
+        }
+    }
+
+    // 로또 전체 번호 표기
+    class LottoNumRange extends React.Component {
+        constructor(props){
+            super(props);
+            this.state={
+                totalNum : []
+            }
+        }
+
+        componentDidMount(){
+            const arr = [];
+            for (let i = 1; i <= 45; i++) {
+                arr.push(i);
+            }
+            this.setState({totalNum:arr})
+        }
+
+        componentDidUpdate(){
+            console.log(this.state.totalNum);
+        }
+
+        loop(value, index){
+            return <LottoNum key={index} number={value}/>
+        }
+
+        render(){
+            return(
+                <div>
+                    {this.state.totalNum.map(this.loop)}
+                    <br /> 추첨결과
+                    <RandomNum total={this.state.totalNum}/>
+                </div>
+            )
+        }
+    }
+
+    // 랜덤 번호 생성기
+    class RandomNum extends React.Component {
+        constructor(props){
+            super(props);
+            this.state = {
+                selectNum : []
+            }
+        }
+
+        componentDidUpdate(){
+            if(this.state.selectNum.length == 0){
+                const arr = []
+                let total = this.props.total;
+                for (let i = 0; i < 6; i++) {
+                    let num = Math.floor(Math.random() * 45 + 1);
+                    
+                    console.log(num)
+                    console.log(this.props)
+                    if(total.includes(num)){
+                        total.splice(total.indexOf(num),1);
+                        arr.push(num)
+                    }else{
+                        i--;
+                        continue;
+                    }                
+                }
+                console.log(arr)
+                this.setState({selectNum:arr})
+            }
+        }
+
+        loop(value, index){
+            return <LottoNum key={index} number={value}/>
+        }
+
+        render(){
+            return(
+                <div>
+                    {this.state.selectNum.map(this.loop)}
+                </div>
+            )
+        }
+    }
+    
+    class App extends React.Component {
+        constructor(props){
+            super(props);
+        }
+
+        render(){
+            return(
+                <div>로또
+                    <LottoNumRange/>
+                    
+                </div>
+            )
+        }
+    }
+
+    const root = ReactDOM.createRoot(document.querySelector('#root'));
+    root.render(<App/>)
+</script>
+</html>

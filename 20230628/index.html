@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div id="root"></div>
+</body>
+<script>
+    const root = document.querySelector('#root');
+
+    const button = document.createElement('button');
+    button.addEventListener('click',(e)=>{
+        // 버튼 클릭 시 해당 이벤트가 발생한 타겟의 내용이 Login이면 타겟 내용 Logout으로 변경. 반대도 설정        
+        if(e.target.innerHTML === 'Login'){
+            e.target.innerHTML = 'Logout';
+        }else{
+            e.target.innerHTML = 'Login';
+        }
+    })
+
+    button.innerHTML = '<div>클릭</div>';
+    root.append(button);
+</script>
+</html>

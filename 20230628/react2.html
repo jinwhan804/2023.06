@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+</head>
+<body>
+    <div id="root"></div>
+</body>
+<script type="text/babel">
+    class Clock extends React.Component {
+        constructor(props){
+            super(props);
+            this.state = {
+                Time : new Date().toLocaleTimeString()
+            }
+        }
+
+        // update(){
+        //     setState({});
+        //     // 이 경우 변경 전 상태가 콘솔에 표기된다. 변경되는데 시간이 필요하기 때문
+        //     console.log(this.state);
+        // }
+
+        // react 생명 주기 : 화면이 그려지는 시기와 state 값이 변했을 때 동작해야 하는 작업이 있는 경우
+        // react에서 제어할 수 있게 만들어준 lifecycle 함수
+
+        componentDidMount(){
+            // 이 안의 내용은 컴퍼넌트가 생성되면 호출됨. 최초의 한 번만 호출.
+            setInterval(()=>{
+                this.setState({Time : new Date().toLocaleTimeString()});
+            },1000);
+            console.log('최초로 1번 실행됨');
+        }
+
+        componentDidUpdate(){
+            console.log('state 업데이트 됨');
+        }
+        
+        render(){
+            return(
+                <>
+                    <h1>컴퓨터 시간</h1>
+                    <h2>time : {this.state.Time}</h2>
+                </>
+            )
+        }
+    }
+
+    const root = ReactDOM.createRoot(document.querySelector('#root'));
+    root.render(<Clock />)
+</script>
+</html>
